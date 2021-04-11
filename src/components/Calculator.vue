@@ -126,7 +126,7 @@ export default {
   },
   computed: {
     formattedResult() {
-      if (this.result === '') {
+      if (!this.result) {
         return 0
       }
       return this.result
@@ -151,7 +151,7 @@ export default {
         let result = eval(this.expression)
         this.result = result
       } catch(e) {
-        this.result = 'Invalid Expression'
+        this.result = 'Invalid'
       }
     },
     onButtonClick(item) {
