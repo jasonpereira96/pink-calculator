@@ -19,7 +19,7 @@
               </b-row>
               <b-row>
                 <b-col cols="12" class="result-row">
-                  {{ result }}
+                  {{ formattedResult }}
                 </b-col>
               </b-row>
             </b-container>
@@ -125,7 +125,16 @@ export default {
     }
   },
   computed: {
+    formattedResult() {
+      if (this.result === '') {
+        return 0
+      }
+      return this.result
+    },
     formattedExpression() {
+      if (this.expression === '') {
+        return 0
+      }
       let { expression } = this
       let result = expression
       result = result.replaceAll('+', ' + ')
