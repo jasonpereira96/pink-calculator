@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <HelloWorld/>
   </div>
 </template>
 
@@ -15,14 +14,21 @@ export default {
   }
 }
 </script>
-
-<style>
+<style lang="scss">
+@import 'scss/variables.scss';
+html, body, #app {
+  width: 100%;
+  height: 100%;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: Quicksand;
+  // font-size: 75px;
+  font-style: normal;
+  font-weight: 400;
+  // line-height: 94px;
+  letter-spacing: 0em;
+  text-align: left;
+  background: $pink;
+  display: flex;
 }
 </style>
