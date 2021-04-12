@@ -1,10 +1,13 @@
 {
   "name": "pink-calculator",
   "version": "0.1.0",
+  "homepage": "https://github.com/jasonpereira96/pink-calculator",
   "private": true,
+  "wst": "/dist/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "deploy": "node ./node_modules/vue-gh-pages/index.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -23,6 +26,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^5.0.0",
     "sass": "^1.32.8",
+    "vue-gh-pages": "^1.19.1",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
