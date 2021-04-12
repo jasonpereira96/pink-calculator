@@ -103,6 +103,9 @@
         </div>
       </b-col>
     </b-row>
+    <div class='bubble' v-for="(bubble, index) in bubbles" :style="bubble.style" :key="index">
+      <img src="./../assets/bubble.png" />
+    </div>
   </b-container>
 </template>
 
@@ -113,13 +116,24 @@ import _ from 'lodash'
 function isNumber(item) {
   return Number.isInteger(item)
 }
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+function getStyle({ left, moveCloudsPeriod, sidewaysPeriod, scale }) {
+  if (!scale) {
+    scale = 1
+  }
+  return `animation: moveclouds ${moveCloudsPeriod}s linear infinite, sideways ${sidewaysPeriod}s ease-in-out infinite alternate; 
+    left: ${left}px; transform: scale(${scale})`
+}
 export default {
   name: 'Calculator',
   data() {
     return {
       ...constants,
       expression: [],
-      result: '0'
+      result: '0',
+      bubbles: []
     }
   },
   computed: {
@@ -135,12 +149,31 @@ export default {
       }
       return this.expression.reduce((acc, token) => {
         if (token.isOperator) {
-          return acc + (token.displayChar || token.operator)
+          return acc + ' ' + (token.displayChar || token.operator)
         } else {
-          return acc + token.value
+          return acc + ' ' + token.value
         }
       }, '')
     }
+  },
+  mounted() {
+    
+    let bubblesConfig = []
+    for (let count = 0; count < 300; count++) {
+      bubblesConfig.push({
+        // left: 10 + count * 10,
+        left: getRandomArbitrary(10, 1300),
+        moveCloudsPeriod: getRandomArbitrary(3, 30),
+        scale: getRandomArbitrary(0.1, 2),
+        sidewaysPeriod: getRandomArbitrary(1, 10)
+      })
+    }
+    this.bubbles = bubblesConfig.map(config => {
+      return {
+        style: getStyle(config)
+      }
+    })
+    window.addEventListener('keyup', this.onKeyUp);
   },
   methods: {
     onEqualsClick() {
@@ -281,6 +314,24 @@ export default {
           }
         }
       }
+    },
+    onKeyUp(event) {
+      console.log(event)
+      if (Number.isInteger(parseInt(event.key))) {
+        this.onButtonClick(parseInt(event.key))
+      } else {
+        if (event.key === "+") {
+          this.onButtonClick(constants.ADD)
+        } else if (event.key === '-') {
+          this.onButtonClick(constants.MINUS)
+        } else if (event.key === "*") {
+          this.onButtonClick(constants.MULTIPLY)
+        } else if (event.key === '/') {
+          this.onButtonClick(constants.DIVIDE)
+        } else if (event.key === 'Enter') {
+          this.onEqualsClick()
+        }
+      }
     }
   }
 }
@@ -294,6 +345,7 @@ export default {
 
 .calculator {
   width: 280px;
+  z-index: 5;
   .display {
     background: rgba(255, 255, 255, 0.45);
     backdrop-filter: blur(40px);
@@ -371,6 +423,36 @@ export default {
   display: flex;
   .main-row {
     flex: 1;
+  }
+}
+.bubble {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  display: flex;
+  img {
+    flex: 1;
+  }
+  // animation: moveclouds 15s linear infinite, sideways 1s ease-in-out infinite alternate;
+}
+
+</style>
+<style lang="scss">
+@keyframes moveclouds { 
+  0% { 
+    top: 500px;
+  }
+  100% { 
+    top: -500px;
+  }
+}
+
+@keyframes sideways { 
+  0% { 
+    margin-left: 0px;
+  }
+  100% { 
+    margin-left: 50px;
   }
 }
 </style>
