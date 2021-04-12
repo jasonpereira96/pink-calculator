@@ -1,9 +1,7 @@
 module.exports = {
-  configureWebpack: {
-    plugins: [
-    ],
-    output: {
-        publicPath: '',
+    configureWebpack: {
+        plugins: [
+        ],
     },
-  }
+    publicPath: ''
 }
