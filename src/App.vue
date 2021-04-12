@@ -28,7 +28,7 @@ html, body, #app {
   // line-height: 94px;
   letter-spacing: 0em;
   text-align: left;
-  background: $pink;
+  background: $light-pink;
   display: flex;
 }
 </style>

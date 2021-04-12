@@ -108,19 +108,17 @@
 
 <script>
 import constants from './../constants.js'
+import _ from 'lodash'
 
 function isNumber(item) {
   return Number.isInteger(item)
 }
-function getLastChar(string) {
-  return string[string.length - 1]
-}
 export default {
-  name: 'HelloWorld',
+  name: 'Calculator',
   data() {
     return {
       ...constants,
-      expression: '',
+      expression: [],
       result: '0'
     }
   },
@@ -132,67 +130,154 @@ export default {
       return this.result
     },
     formattedExpression() {
-      if (this.expression === '') {
+      if (this.expression.length === 0) {
         return 0
       }
-      let { expression } = this
-      let result = expression
-      result = result.replaceAll('+', ' + ')
-      result = result.replaceAll('-', ' - ')
-      result = result.replaceAll('*', ' &times; ')
-      result = result.replaceAll('/', ' &divide; ')
-      // result = result.replaceAll('', '&radic;')
-      return result
+      return this.expression.reduce((acc, token) => {
+        if (token.isOperator) {
+          return acc + (token.displayChar || token.operator)
+        } else {
+          return acc + token.value
+        }
+      }, '')
     }
   },
   methods: {
     onEqualsClick() {
+      let expression = _.cloneDeep(this.expression)
+      let expressionString = ''
       try {
-        let result = eval(this.expression)
+        for (let index=0;index<expression.length;index++) {
+          let token = expression[index]
+          if (token.isOperator) {
+            if (token.operator === '%') {
+              expressionString += '/100'
+            } else if (token.operator === 'ROOT') {
+              let nextToken = expression[index + 1]
+              if (nextToken && !nextToken.isOperator) {
+                nextToken.value = nextToken.value ** 0.5
+              } else {
+                throw new Error()
+              }
+              let prevToken = expression[index - 1]
+              if (prevToken && !prevToken.isOperator) {
+                expressionString += '*'
+              }
+            } else {
+              expressionString += token.operator
+            }
+          } else {
+            expressionString += token.value
+          }
+        }
+        let result = eval(expressionString)
         this.result = result
       } catch(e) {
         this.result = 'Invalid'
       }
     },
+    getLastToken() {
+      return this.expression[this.expression.length - 1]
+    },
     onButtonClick(item) {
+      if (this.expression.length === 0) {
+        if (isNumber(item)) {
+          this.expression.push({
+            value: `${item}`,
+            isOperator: false
+          })  
+        } else if (item === constants.SQUARE_ROOT) {
+          this.expression.push({
+            isOperator: true,
+            operator: 'ROOT',
+            displayChar: '&radic;'
+          })
+        } else if (item === constants.MINUS) {
+          this.expression.push({
+            isOperator: true,
+            operator: '-'
+          })
+        }
+        return
+      }
       if (item === 0) {
-        const lastChar = parseInt(getLastChar(this.expression))
-        if (isNumber(lastChar)) {
-          this.expression += '0'
+        let lastToken = this.getLastToken()
+        if (!lastToken.isOperator) {
+          lastToken.value += '0'
         }
       } else if (isNumber(item)) {
-        this.expression += item
+        let lastToken = this.getLastToken()
+        if (lastToken.isOperator) {
+          this.expression.push({
+            value: `${item}`,
+            isOperator: false
+          })
+        } else {
+          lastToken.value += item
+        }
       } else {
         switch(item) {
           case constants.ADD: {
-            this.expression += '+'
+            this.expression.push({
+              isOperator: true,
+              operator: '+'
+            })
           }
           break
           case constants.MINUS: {
-            this.expression += '-'
+            this.expression.push({
+              isOperator: true,
+              operator: '-'
+            })
           }
           break
           case constants.MULTIPLY: {
-            this.expression += '*'
+            this.expression.push({
+              isOperator: true,
+              displayChar: '&times;',
+              operator: '*'
+            })
           }
           break
           case constants.DIVIDE: {
-            this.expression += '/'
+            this.expression.push({
+              isOperator: true,
+              displayChar: '&divide;',
+              operator: '/'
+            })
           }
           break
           case constants.DECIMAL: {
-            this.expression += '.'
+            let lastToken = this.getLastToken()
+            if (!lastToken.isOperator) {
+              lastToken.value += '.'
+            }
           }
           break
           case constants.CLEAR: {
-            this.expression = this.expression.slice(0, this.expression.length - 1)
+            this.expression.pop()
           }
           break
           case constants.DOUBLE_ZERO: {
-            const lastChar = parseInt(getLastChar(this.expression))
-            if (isNumber(lastChar)) {
-              this.expression += '00'
+            let lastToken = this.getLastToken()
+            if (!lastToken.isOperator) {
+              lastToken.value += '00'
             }
+          }
+          break
+          case constants.PERC: {
+            this.expression.push({
+              isOperator: true,
+              operator: '%'
+            })
+          }
+          break
+          case constants.SQUARE_ROOT: {
+            this.expression.push({
+              isOperator: true,
+              operator: 'ROOT',
+              displayChar: '&radic;'
+            })
           }
         }
       }
