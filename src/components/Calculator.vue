@@ -366,6 +366,10 @@ export default {
       justify-content: center;
       align-items: center;
       height: 40px;
+      transition: all .2s ease-in-out;
+    }
+    .col-3:hover {
+      transform: scale(1.5);
     }
   }
 }
