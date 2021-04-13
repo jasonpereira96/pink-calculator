@@ -390,7 +390,7 @@ export default {
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 }
 .calculator-wrapper {
   display: flex;
@@ -421,7 +421,7 @@ export default {
   min-height: 24px;
 }
 .result-row {
-  font-size: 2em;
+  font-size: 1.5em;
   padding-bottom: 15px;
   word-break: break-all;
   min-height: 48px;

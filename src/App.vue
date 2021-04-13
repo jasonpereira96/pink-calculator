@@ -39,7 +39,7 @@ html, body, #app {
 }
 #app {
   font-family: Quicksand;
-  // font-size: 75px;
+  font-size: 30px;
   font-style: normal;
   font-weight: 400;
   // line-height: 94px;
@@ -52,6 +52,7 @@ html, body, #app {
 .footer {
   font-family: Inter;
   font-style: normal;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: 0em;
   text-align: left;
