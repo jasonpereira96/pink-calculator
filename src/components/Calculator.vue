@@ -329,6 +329,10 @@ export default {
           this.onButtonClick(constants.DIVIDE)
         } else if (event.key === 'Enter') {
           this.onEqualsClick()
+        } else if (event.key === 'Backspace') {
+          this.onButtonClick(constants.CLEAR)
+        } else if (event.key === '.') {
+          this.onButtonClick(constants.DECIMAL)
         }
       }
     }
