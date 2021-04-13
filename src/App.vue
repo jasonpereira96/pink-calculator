@@ -31,6 +31,9 @@ export default {
 }
 </script>
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+
 @import 'scss/variables.scss';
 html, body, #app {
   width: 100%;
@@ -52,7 +55,7 @@ html, body, #app {
 .footer {
   font-family: Inter;
   font-style: normal;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0em;
   text-align: left;
