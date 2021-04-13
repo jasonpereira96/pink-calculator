@@ -1,5 +1,5 @@
 <template>
-  <b-container class="main-container">
+  <b-container class="main-container" fluid>
     <b-row class="main-row">
       <b-col cols="12" class="calculator-wrapper">
         <div class='calculator'>
@@ -159,10 +159,9 @@ export default {
   mounted() {
     
     let bubblesConfig = []
-    for (let count = 0; count < 300; count++) {
+    for (let count = 0; count < 500; count++) {
       bubblesConfig.push({
-        // left: 10 + count * 10,
-        left: getRandomArbitrary(10, 1300),
+        left: getRandomArbitrary(10, 2000),
         moveCloudsPeriod: getRandomArbitrary(3, 30),
         scale: getRandomArbitrary(0.1, 2),
         sidewaysPeriod: getRandomArbitrary(1, 10)
@@ -421,6 +420,7 @@ export default {
 }
 .main-container {
   display: flex;
+  flex: 1;
   .main-row {
     flex: 1;
   }
@@ -440,7 +440,7 @@ export default {
 <style lang="scss">
 @keyframes moveclouds { 
   0% { 
-    top: 500px;
+    top: 1000px;
   }
   100% { 
     top: -500px;
