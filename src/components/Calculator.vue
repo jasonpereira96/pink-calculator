@@ -159,11 +159,11 @@ export default {
   mounted() {
     
     let bubblesConfig = []
-    for (let count = 0; count < 500; count++) {
+    for (let count = 0; count < 750; count++) {
       bubblesConfig.push({
-        left: getRandomArbitrary(10, 2000),
+        left: getRandomArbitrary(-500, 2000),
         moveCloudsPeriod: getRandomArbitrary(3, 30),
-        scale: getRandomArbitrary(0.1, 2),
+        scale: getRandomArbitrary(0.01, 0.2),
         sidewaysPeriod: getRandomArbitrary(1, 10)
       })
     }
@@ -430,8 +430,8 @@ export default {
   }
 }
 .bubble {
-  width: 40px;
-  height: 40px;
+  // width: 40px;
+  // height: 40px;
   position: absolute;
   display: flex;
   img {
