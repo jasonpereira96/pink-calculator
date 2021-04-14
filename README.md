@@ -1,5 +1,7 @@
 # pink-calculator
 
+![Image](https://github.com/jasonpereira96/pink-calculator/blob/master/screenshots/calc.png)
+
 ## Project setup
 ```
 npm install
